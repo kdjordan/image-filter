@@ -68,9 +68,8 @@ const path = require('path');
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
-    // res.send("try GET /filteredimage?image_url={{}}")
-    console.log(path)
-    res.sendFile('index.html', { root: path.join(__dirname, './public') });
+    res.send("try GET /filteredimage?image_url={{}}")
+    // res.sendFile('index.html', { root: path.join(__dirname, './public') });
   } );
   
 

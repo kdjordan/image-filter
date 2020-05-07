@@ -1,6 +1,13 @@
 import fs from 'fs';
 import Jimp = require('jimp');
 
+
+/* Borrowed this function from :: https://www.quora.com/What-is-the-best-way-to-validate-for-a-URL-in-JavaScript */
+/* to see if URL is properly formatted */
+export function validateURL(theUrl: string): Boolean {
+    var pattern = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+= &%@! \-\/]))?/;
+    return !pattern.test(theUrl);
+}
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
 // returns the absolute path to the local image

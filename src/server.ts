@@ -36,14 +36,14 @@ const urlExist = require("url-exist");
       }
       // 1b. check to see if the URL is functioning as expected using npm package: https://www.npmjs.com/package/url-exist
       // if not - return mssg
-      const exists = await urlExist(image_url);
+      const exists:boolean = await urlExist(image_url);
       if (!exists) {
         return res.status(404).send({ message: 'Image is not available' });
       }
       
       // 2. call filterImageFromURL(image_url) to filter the image
       // 2a. check to see if our filterImage was successfull
-      let file = await filterImageFromURL(image_url)
+      let file:string = await filterImageFromURL(image_url)
       if(!file) {
         return res.status(400).send({ message: 'Trouble Filtering your Image' });
       }

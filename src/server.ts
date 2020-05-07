@@ -2,7 +2,7 @@ import express from 'express';
 import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {validateURL, filterImageFromURL, deleteLocalFiles} from './util/util';
-import { filter } from 'bluebird';
+const urlExist = require("url-exist");
 
 (async () => {
 
@@ -35,7 +35,13 @@ import { filter } from 'bluebird';
       if(validateURL(url)){
         return res.status(400).send({ message: 'File url is malformed' });
       }
-
+      // 1b. check to see if the URL is functioning as expected using npm package: https://www.npmjs.com/package/url-exist
+      // if not - return mssg
+      const exists = await urlExist(url);
+      if (!exists) {
+        return res.status(404).send({ message: 'Image is not available' });
+      }
+      
       // 2. call filterImageFromURL(image_url) to filter the image
       // 2a. check to see if our filterImage was successfull
       let file = await filterImageFromURL(url)
@@ -53,19 +59,6 @@ import { filter } from 'bluebird';
         }
       })
   } );
-
-  // @TODO1 IMPLEMENT A RESTFUL ENDPOINT
-  // GET /filteredimage?image_url={{URL}}
-  // endpoint to filter an image from a public url.
-  // IT SHOULD
-  //    1. validate the image_url query
-  //    2. call filterImageFromURL(image_url) to filter the image
-  //    3. send the resulting file in the response
-  //    4. deletes any files on the server on finish of the response
-  // QUERY PARAMATERS
-  //    image_url: URL of a publicly accessible image
-  // RETURNS
-  //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   /**************************************************************************** */
 

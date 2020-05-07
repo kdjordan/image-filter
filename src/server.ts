@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {validateURL, filterImageFromURL, deleteLocalFiles} from './util/util';
 const urlExist = require("url-exist");
-const path = require('path');
 
 (async () => {
 
@@ -25,27 +24,26 @@ const path = require('path');
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   app.get( "/filteredimage", async ( req: Request, res: Response ) => {
-    console.log(req.query)
-      let { url } = req.query
+      let { image_url } = req.query
 
       // 1. validate the image_url query
       // 1a. check util function by to see if we have a properly constructed URL 
-      if(!url) {
+      if(!image_url) {
         return res.status(400).send({ message: 'File url is required' });
       }
-      if(validateURL(url)){
+      if(validateURL(image_url)){
         return res.status(400).send({ message: 'File url is malformed' });
       }
       // 1b. check to see if the URL is functioning as expected using npm package: https://www.npmjs.com/package/url-exist
       // if not - return mssg
-      const exists = await urlExist(url);
+      const exists = await urlExist(image_url);
       if (!exists) {
         return res.status(404).send({ message: 'Image is not available' });
       }
       
       // 2. call filterImageFromURL(image_url) to filter the image
       // 2a. check to see if our filterImage was successfull
-      let file = await filterImageFromURL(url)
+      let file = await filterImageFromURL(image_url)
       if(!file) {
         return res.status(400).send({ message: 'Trouble Filtering your Image' });
       }
@@ -69,7 +67,6 @@ const path = require('path');
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
     res.send("try GET /filteredimage?image_url={{}}")
-    // res.sendFile('index.html', { root: path.join(__dirname, './public') });
   } );
   
 

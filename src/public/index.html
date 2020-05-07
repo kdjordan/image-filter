@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image-Filter</title>
+</head>
+<body>
+    <main>
+        <h1>Paste in an image URL <span>and hit < ENTER ></span></h1>
+            <input type="text" name="" id="url" placeholder="image URL to be filtered">
+    </main>
+</body>
+<script>
+    let url = document.getElementById('url')
+    url.addEventListener('keyup', () => {
+        if (event.keyCode === 13) {
+            console.log(url.value)
+            window.open('/filteredimage?url=' + url.value)
+        }
+    })
+    
+</script>
+<style>
+    h1 {
+        color: red;
+    }
+    input {
+        width: 50%;
+    }
+    main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+</html>

@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {validateURL, filterImageFromURL, deleteLocalFiles} from './util/util';
 const urlExist = require("url-exist");
+const path = require('path');
 
 (async () => {
 
@@ -24,7 +25,7 @@ const urlExist = require("url-exist");
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
 
   app.get( "/filteredimage", async ( req: Request, res: Response ) => {
-    // console.log(req.query)
+    console.log(req.query)
       let { url } = req.query
 
       // 1. validate the image_url query
@@ -67,7 +68,9 @@ const urlExist = require("url-exist");
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
+    // res.send("try GET /filteredimage?image_url={{}}")
+    console.log(path)
+    res.sendFile('index.html', { root: path.join(__dirname, './public') });
   } );
   
 
